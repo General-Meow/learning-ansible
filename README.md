@@ -5,8 +5,11 @@ random notes and files created while learning ansible
 ansible --list-hosts <GROUP>                          : shows all the hosts that the machine knows about, values
                                                   : can be all, groupname, wildcards, hostnames
 ansible -i inventory.file --list-hosts all        : use the -i option to state the inventory file
+ansible -m ping all                               : ping all hosts
+ansible -m command -a "hostname" all              : get the hostname of all inventory machines. -a "hostname" is the argument
 
 
+### Inventory
 - you have 2 ways in which you can define a inventory file (inventory holds information about nodes/machines under management)
   - static; as in a defined file with all the machines
   - dynamic; a programme, typically a python script will run before that will generate the file
@@ -38,3 +41,56 @@ master ansible-connection=local #do not ssh into this machine as your already th
 [defaults]
 inventory = ./hosts
 ```
+
+### Tasks
+- A task is the most basic building block of all execution and configuration
+- A task is made out of 2 parts
+  - a module
+  - arguments for the module
+- In the ping example '-m' states module, 'ping' is the module
+- The command module runs a command thats provided as the argument
+  - The command module is the default command if no module is provided
+  - ansible -a "hostname" all : will run the command module
+- output of commands are:
+  - host | status | exit code
+
+```
+  paul@master:~/learning-ansible$ ansible -m command -a "hostname" all
+  127.0.0.1 | SUCCESS | rc=0 >>
+  master
+```
+- To view the modules available look at the documentation online
+
+### Plays
+- A playbook is a file in yaml made up of plays
+- A play is a set of target hosts and a task to execute against those hosts
+- playbooks start out with a list of plays
+  - 2 main keys for a play
+    - hosts
+    - tasks : which is also a list
+
+```
+---
+  - hosts: all # the first play
+    tasks:
+    - command: hostname # the module to run
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ =

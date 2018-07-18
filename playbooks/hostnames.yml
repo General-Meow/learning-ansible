@@ -1,0 +1,4 @@
+---
+  - hosts: all # the first play
+    tasks:
+    - command: hostname # the module to run
