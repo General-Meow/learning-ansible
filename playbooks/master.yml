@@ -1,5 +1,6 @@
 ---
   - hosts: master
+    become: true
     tasks:
       - name: install mysql
         apt: name=mysql-server update_cache=yes state=present

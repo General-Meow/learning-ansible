@@ -76,7 +76,15 @@ inventory = ./hosts
     - name: get server hostname # a nice description of the task
       command: hostname # the module to run
 ```
+- When running a playbook, you sometimes need sudo/root level privs, to escalate privs' you need to add the become property
+at the host level set to true
 
+```
+---
+  - hosts: all # the first play
+    become: true
+    tasks:
+```
 
 
 
