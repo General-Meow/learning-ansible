@@ -1,4 +1,5 @@
 ---
   - hosts: all # the first play
     tasks:
-    - command: hostname # the module to run
+    - name: get server hostname # a nice description of the task
+      command: hostname # the module to run

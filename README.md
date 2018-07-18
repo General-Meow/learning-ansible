@@ -7,7 +7,7 @@ ansible --list-hosts <GROUP>                          : shows all the hosts that
 ansible -i inventory.file --list-hosts all        : use the -i option to state the inventory file
 ansible -m ping all                               : ping all hosts
 ansible -m command -a "hostname" all              : get the hostname of all inventory machines. -a "hostname" is the argument
-
+ansible-playbook <playbook_file.yml>              : run a playbook
 
 ### Inventory
 - you have 2 ways in which you can define a inventory file (inventory holds information about nodes/machines under management)
@@ -68,12 +68,13 @@ inventory = ./hosts
   - 2 main keys for a play
     - hosts
     - tasks : which is also a list
-
+- To run a playbook, you use the command: ansible-playbook <playbook_file.yml>
 ```
 ---
   - hosts: all # the first play
     tasks:
-    - command: hostname # the module to run
+    - name: get server hostname # a nice description of the task
+      command: hostname # the module to run
 ```
 
 
