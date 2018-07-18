@@ -2,7 +2,4 @@
   - hosts: master
     tasks:
       - name: install mysql
-        apt:
-          name: mysql-server
-          update_cache: yes
-          state: present
+        apt: name=mysql-server update_cache=yes state=present
