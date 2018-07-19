@@ -63,6 +63,7 @@ inventory = ./hosts
 
 ### Plays
 - A playbook is a file in yaml made up of plays
+- They run concurrently across all selected nodes for performance reasons
 - A play is a set of target hosts and a task to execute against those hosts
 - playbooks start out with a list of plays
   - 2 main keys for a play
@@ -77,15 +78,46 @@ inventory = ./hosts
       command: hostname # the module to run
 ```
 - When running a playbook, you sometimes need sudo/root level privs, to escalate privs' you need to add the become property
-at the host level set to true
-
+at the play level set to true
+- When using become, you may need to provide the sudo password, use the ansible-playbook option --ask-become-pass to get
+ansible to request the password before running
 ```
 ---
   - hosts: all # the first play
     become: true
     tasks:
 ```
+- If you have a task that is very similar and repeated you can do the following instead of copying and pasting the task
+- Its possible to loop over lists for a single task by using the with_items syntax. Which uses the jinja (python) syntax
+- Here the item variable will be replaced by each value within the with_items list
+```
+---
+- hosts: db
+  become: true
+  tasks:
+    - name: install random packages
+      apt: name={{item}} state=present
+      with_items:
+        - apache2
+        - mysql
+        - nginx
+```
 
+- After installing packages you will need to tell Ansible about them so that it can manage them, You do that by using the
+  service module
+
+  ```
+  ---
+  - hosts: db
+    become: true
+    tasks:
+      - name: install random packages
+        apt: name=blah state=present
+      - name: ensure the blah service is up and running
+        service:
+          name: blah
+          state: started
+  ```
 
 
 
