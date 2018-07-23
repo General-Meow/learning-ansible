@@ -15,6 +15,10 @@ ansible-vault create <FILE_NAME>                  : creates a new encrypted vaul
 ansible-vault edit <FILE_NAME>                    : edit the vault file
 ansible-playbook ... --ask-vault-pass=...         : when running a playbook that uses a vault, use the option to provide
                                                     the password
+ansible-playbook site.yml --list-tags             : find all the tags assigned to tasks in this playbook
+ansible-playbool site.yml --tags "install"        : run the playbook but only the tasks with the install tag
+ansible-playbool site.yml --skip-tags "install"   : run the playbook and run all but the install task
+
 
 
 ### Inventory
@@ -536,6 +540,34 @@ db_pass: "{{ vault_db_pass }}"
 - just like the chef scripts etc, where people share their playbooks and roles
 - ansible-galaxy install <ROLE_NAME>
 
+
+### improvements
+- gather facts can take a while, you dont always need them do you can disable them using the 'gather_facts: false' key in the playbook
+- multiple apt usages with update cache will run an apt update all the time even if you just ran it, you can skip it by using the cache_valid_time=86400 which caches the result for the next 24 hours (its in seconds)
+- another way to improve apt is to have a playbook hit all target nodes with just an apt update with the cache setting before running any other playbook. This will allow you to parallize the apt update on all hosts at once. This will allow you to then remove the update cache from all apt modules in your tasks
+
+```site.yml playbook. all playbook
+---
+  - hosts: all
+    become: true
+    gather_facts: false
+    tasks:
+      - name: update apt
+        apt: update_cache=yes cache_valid_time=86400
+- include: lb.yml
+- include: db.yml
+- include: web.yml
+```
+
+- You can limit the hosts targeted by using the --limit option. this works well if you wanted to run an entire site.yml but only wanted to target a single host.
+- You can also limit tasks that run by applying tags to tasks and running the playbook with --tags "xxx"
+
+```main.yml in the role tasks directory
+---
+ - name: install tool
+   apt: ...
+   tags: [ `install` ] ## provide a list of tags, you can also you the other list syntax with '-'
+```
 
 
 
