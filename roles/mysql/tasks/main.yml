@@ -3,6 +3,15 @@
   debug:
     var: "{{ mysql_readonly_users }}"
 
+- name: install tools
+  apt:
+    name: {{ item }}
+    update_cache: yes
+    state: present
+  with_items:
+    - mysql-server
+    - python-mysqldb
+
 - name: Add read only users to the DB
   mysql_user:
     name: "{{ item.key }}"
