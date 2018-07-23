@@ -1,2 +1,7 @@
 ---
-# defaults file for mysql
+mysql_readonly_users:
+  usernames:
+    - simon.meredith
+    - jayanta.saha
+    - ola.onalaja
+  defaultPassword: {{ vault_readonly_password }}
