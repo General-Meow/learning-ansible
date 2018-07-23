@@ -4,4 +4,4 @@ mysql_readonly_users:
     - simon.meredith
     - jayanta.saha
     - ola.onalaja
-  defaultPassword: {{ vault_readonly_password }}
+  defaultPassword: abc123
