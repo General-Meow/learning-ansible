@@ -1,4 +1,8 @@
 ---
+- name: print vars
+  debug:
+    var: "{{ mysql_readonly_users }}"
+    
 - name: Add read only users to the DB
   mysql_user:
     name: "{{ item.value.usernames }}"
@@ -6,5 +10,3 @@
     password: "{{ item['defaultPassword'] }}"
     priv: '*.*:SELECT'
   with_dict: "{{ mysql_readonly_users }}"
-  debug:
-    var: "{{ mysql_readonly_users }}"
