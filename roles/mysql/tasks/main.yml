@@ -3,6 +3,6 @@
   mysql_user:
     name: "{{ item.value.usernames }}"
     state: present
-    password: "{{ item[defaultPassword] }}"
+    password: "{{ item['defaultPassword'] }}"
     priv: '*.*:SELECT'
   with_dict: "{{ mysql_readonly_users }}"
