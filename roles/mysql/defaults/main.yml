@@ -1,7 +1,8 @@
 ---
 mysql_readonly_users:
-  usernames:
-    - simon.meredith
-    - jayanta.saha
-    - ola.onalaja
-  defaultPassword: abc123
+  simon.meredith:
+    password: abc123
+  jayanta.saha:
+    password: abc123
+  ola.onalaja:
+    password: abc123
