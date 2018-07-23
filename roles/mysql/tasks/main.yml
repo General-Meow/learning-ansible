@@ -5,6 +5,6 @@
     state: present
     password: "{{ item['defaultPassword'] }}"
     priv: '*.*:SELECT'
-  with_dict: "{{mysql_readonly_users}}"
+  with_dict: "{{ mysql_readonly_users }}"
   debug:
     var: "{{ mysql_readonly_users }}"
