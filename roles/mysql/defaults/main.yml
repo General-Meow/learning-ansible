@@ -1,8 +1,8 @@
 ---
 mysql_readonly_users:
   simon.meredith:
-    password: abc123
+    password: "{{ vault_default_password }}"
   jayanta.saha:
-    password: abc123
+    password: "{{ vault_default_password }}"
   ola.onalaja:
-    password: abc123
+    password: "{{ vault_default_password }}"
