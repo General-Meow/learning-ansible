@@ -1,27 +1,31 @@
 # learning-ansible
-random notes and files created while learning ansible
+
+Random notes and files created while learning ansible
 
 ### commands
-ansible --list-hosts <GROUP>                          : shows all the hosts that the machine knows about, values
-                                                  : can be all, groupname, wildcards, hostnames
-ansible -i inventory.file --list-hosts all        : use the -i option to state the inventory file
-ansible -m ping all                               : ping all hosts
-ansible -m command -a "hostname" all              : get the hostname of all inventory machines. -a "hostname" is the argument
-ansible -m setup <NODE>                           : gather all the fact for a node
-ansible-playbook <playbook_file.yml>              : run a playbook
-ansible-galaxy init <ROLE_NAME>                   : creates a role directory structure from the current directory
-ansible-vault create <FILE_NAME>                  : creates a new encrypted vault file in the current directory, will ask
-                                                    for password for new file then jump you into an editor to add values (might need to export the EDITOR env to vi e.g. export EDITOR=vi)
-ansible-vault edit <FILE_NAME>                    : edit the vault file
-ansible-playbook ... --ask-vault-pass=...         : when running a playbook that uses a vault, use the option to provide
-                                                    the password
-ansible-playbook site.yml --list-tags             : find all the tags assigned to tasks in this playbook
-ansible-playbool site.yml --tags "install"        : run the playbook but only the tasks with the install tag
-ansible-playbool site.yml --skip-tags "install"   : run the playbook and run all but the install task
+
+- ansible --list-hosts <GROUP>                      : shows all the hosts that the machine knows about, values
+                                                    : can be all, groupname, wildcards, hostnames
+- ansible -i inventory.file --list-hosts all        : use the -i option to state the inventory file
+- ansible -m ping all                               : ping all hosts
+- ansible -m command -a "hostname" all              : get the hostname of all inventory machines. -a "hostname" is the argument
+- ansible -m setup <NODE>                           : gather all the fact for a node
+- ansible-playbook <playbook_file.yml>              : run a playbook
+- ansible-galaxy init <ROLE_NAME>                   : creates a role directory structure from the current directory
+- ansible-vault create <FILE_NAME>                  : creates a new encrypted vault file in the current directory, will ask
+                                                      for password for new file then jump you into an editor to add values (might need to export the EDITOR env to vi e.g. export EDITOR=vi)
+- ansible-vault edit <FILE_NAME>                    : edit the vault file
+- ansible-playbook ... --ask-become-pass=...        : run playbook with sudo password
+- ansible-playbook ... --ask-vault-pass=...         : when running a playbook that uses a vault, use the option to provide
+                                                      the password
+- ansible-playbook site.yml --list-tags             : find all the tags assigned to tasks in this playbook
+- ansible-playbool site.yml --tags "install"        : run the playbook but only the tasks with the install tag
+- ansible-playbool site.yml --skip-tags "install"   : run the playbook and run all but the install task
 
 
 
 ### Inventory
+
 - you have 2 ways in which you can define a inventory file (inventory holds information about nodes/machines under management)
   - static; as in a defined file with all the machines
   - dynamic; a programme, typically a python script will run before that will generate the file
@@ -32,6 +36,7 @@ ansible-playbool site.yml --skip-tags "install"   : run the playbook and run all
   - basic list of all machines ip's or names
   - grouping of each sub list
 - file should also contain the control/master server
+
 ```
 [dev]
 xxx.xxx.xxx.xxx
@@ -44,6 +49,7 @@ db.server
 [local]
 master ansible-connection=local #do not ssh into this machine as your already there
 ```
+
 - in the inventory file, you can specify a number of things, one of which is a connection type which defines how to ssh into each of those machines
 - /etc/ansible/ansible.cfg contains all the config, one of which is the inventory option that contains the file to first look at for the inventory
   - you can either make changes there or you can override them using a local config file with the overridden options
